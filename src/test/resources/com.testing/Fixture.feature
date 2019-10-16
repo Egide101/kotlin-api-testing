@@ -17,3 +17,8 @@ Feature: get fixture
     And I use a http Get method
     Then 3 fixtures are returned in the response
     And each fixture has a fixture id
+
+    Scenario: Store new feature
+      Given I have a json fixture string from file '/TestData/FixtureData.json'
+      And I post the fixture to the endpoint '/fixture'
+      Then a new fixture is created in the database
