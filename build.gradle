@@ -7,12 +7,15 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     testImplementation 'io.cucumber:cucumber-java:4.7.1'
     testImplementation 'io.cucumber:cucumber-junit:4.7.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'com.beust:klaxon:5.0.1'
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.0"
 }
 
 configurations {
@@ -27,7 +30,7 @@ task cucumber() {
         javaexec {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', 'pretty', '--glue','com.testing','src/test/resources']
+            args = ['--plugin', 'pretty', '--glue', 'com.testing', 'src/test/resources']
         }
     }
 }

@@ -5,7 +5,7 @@ import io.cucumber.java.en.Then
 import org.junit.Assert
 import java.net.URL
 
-class Fixture{
+class Fixture {
     private val baseUrl = "http://localhost:3000"
     var completeEndPoint: StringBuffer = StringBuffer(baseUrl)
 
@@ -26,9 +26,15 @@ class Fixture{
 
     @Then("there is a response")
     fun there_is_a_response() {
-        val result = URL(completeEndPoint.toString()).readText()
-        println(result)
+        val jsonFixture = URL(completeEndPoint.toString()).readText()
 
-        Assert.assertNotNull(result)
+        Assert.assertNotNull(jsonFixture)
+
+//        println(jsonFixture)
+//        val mapper = jacksonObjectMapper()
+//
+//        var fixtures: models.Fixture = mapper.readValue(jsonFixture)
+//
+//        Assert.assertNotNull(fixtures)
     }
 }
