@@ -1,11 +1,14 @@
 package com.testing
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
+import models.Fixture
 import org.junit.Assert
 import java.net.URL
 
-class Fixture {
+class FixtureSteps {
     private val baseUrl = "http://localhost:3000"
     var completeEndPoint: StringBuffer = StringBuffer(baseUrl)
 
@@ -29,12 +32,27 @@ class Fixture {
         val jsonFixture = URL(completeEndPoint.toString()).readText()
 
         Assert.assertNotNull(jsonFixture)
+    }
 
-//        println(jsonFixture)
-//        val mapper = jacksonObjectMapper()
-//
-//        var fixtures: models.Fixture = mapper.readValue(jsonFixture)
-//
-//        Assert.assertNotNull(fixtures)
+    lateinit var fixtures: List<Fixture>
+
+    @Then("{int} fixtures are returned in the response")
+    fun fixtures_are_returned_in_the_response(numberOfFixtures: Int) {
+        val jsonFixture = URL(completeEndPoint.toString()).readText()
+
+        println(jsonFixture)
+
+        val mapper = jacksonObjectMapper()
+
+        fixtures = mapper.readValue(jsonFixture)
+
+        Assert.assertEquals(fixtures.count(), numberOfFixtures)
+    }
+
+    @Then("each fixture has a fixture id")
+    fun each_fixture_has_a_fixture_id() {
+        for (fixture in fixtures) {
+            Assert.assertNotNull(fixture.fixtureId)
+        }
     }
 }
